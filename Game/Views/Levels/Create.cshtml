@@ -1,0 +1,43 @@
+﻿@model Level
+
+@{
+    ViewData["Title"] = "Создать";
+}
+
+<h1>Создать</h1>
+
+<h4>Уровень</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Level_Number" class="control-label">Уровень</label>
+                <input asp-for="Level_Number" class="form-control" />
+                <span asp-validation-for="Level_Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bonus" class="control-label">Бонус</label>
+                <input asp-for="Bonus" class="form-control" />
+                <span asp-validation-for="Bonus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Capability" class="control-label">Способность</label>
+                <input asp-for="Capability" class="form-control" />
+                <span asp-validation-for="Capability" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Веррнуться назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

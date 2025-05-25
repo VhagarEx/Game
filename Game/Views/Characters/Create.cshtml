@@ -1,0 +1,48 @@
+﻿@model Character
+
+@{
+    ViewData["Title"] = "Создать";
+}
+
+<h1>Создать</h1>
+
+<h4>Персонаж</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Имя</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Weapon" class="control-label">Оружие</label>
+                <input asp-for="Weapon" class="form-control" />
+                <span asp-validation-for="Weapon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Level_ID" class="control-label">ID_уровня</label>
+                <input asp-for="Level_ID" class="form-control" />
+                <span asp-validation-for="Level_ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gamer_ID" class="control-label">ID_игрока</label>
+                <input asp-for="Gamer_ID" class="form-control" />
+                <span asp-validation-for="Gamer_ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Вернуться назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

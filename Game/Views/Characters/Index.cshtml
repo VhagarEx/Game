@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Character>
+
+@{
+    ViewData["Title"] = "Персонажи";
+}
+
+<h1>Персонажи</h1>
+
+<p>
+    <a asp-action="Create">Создать новую запись</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weapon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Level_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gamer_ID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weapon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Level_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gamer_ID)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
