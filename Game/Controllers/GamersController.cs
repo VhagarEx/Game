@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Game.Data;
+using Game.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Game.Data;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 namespace Game.Controllers
 {
     public class GamersController : Controller
@@ -18,10 +21,41 @@ namespace Game.Controllers
             _context = context;
         }
 
-        // GET: Gamers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string GamerRank, string searchString)
         {
-            return View(await _context.Gamer.ToListAsync());
+            if (_context.Gamer == null)
+            {
+                return Problem("Entity set 'GameContext.Gamer' is null.");
+            }
+
+            IQueryable<string> rankQuery = from m in _context.Gamer
+                                           orderby m.Rank
+                                           select m.Rank;
+
+            var gamersQuery = from m in _context.Gamer
+                              select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                gamersQuery = gamersQuery.Where(s => s.Name.Contains(searchString) ||
+                                                   s.Surname.Contains(searchString) ||
+                                                   (s.Rank != null && s.Rank.Contains(searchString)));
+            }
+
+            if (!string.IsNullOrEmpty(GamerRank))
+            {
+                gamersQuery = gamersQuery.Where(x => x.Rank == GamerRank);
+            }
+
+            var GamerRankVM = new GamerRankViewModel
+            {
+                Rank = new SelectList(await rankQuery.Distinct().ToListAsync()),
+                Gamers = await gamersQuery.ToListAsync(),
+                GamerRank = GamerRank,
+                SearchString = searchString
+            };
+
+            return View(GamerRankVM);
         }
 
         // GET: Gamers/Details/5

@@ -11,28 +11,28 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            Имя
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            Оружие
+            @Html.DisplayNameFor(model => model.Weapon)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Weapon)
         </dd>
         <dt class = "col-sm-2">
-            ID_уровня
+            Уровень
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Level_ID)
+            @Html.DisplayFor(model => model.Level.Level_Number)
         </dd>
         <dt class = "col-sm-2">
-            ID_игрока
+            Имя
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gamer_ID)
+            @Html.DisplayFor(model => model.Gamer.Name)
         </dd>
     </dl>
 </div>

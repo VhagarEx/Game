@@ -21,7 +21,8 @@ namespace Game.Controllers
         // GET: Characters
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Character.ToListAsync());
+            var gameContext = _context.Character.Include(c => c.Gamer).Include(c => c.Level);
+            return View(await gameContext.ToListAsync());
         }
 
         // GET: Characters/Details/5
@@ -33,6 +34,8 @@ namespace Game.Controllers
             }
 
             var character = await _context.Character
+                .Include(c => c.Gamer)
+                .Include(c => c.Level)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
@@ -45,6 +48,8 @@ namespace Game.Controllers
         // GET: Characters/Create
         public IActionResult Create()
         {
+            ViewData["GamerId"] = new SelectList(_context.Gamer, "Id", "Name");
+            ViewData["LevelId"] = new SelectList(_context.Level, "Id", "Id");
             return View();
         }
 
@@ -53,7 +58,7 @@ namespace Game.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Weapon,Level_ID,Gamer_ID")] Character character)
+        public async Task<IActionResult> Create([Bind("Id,Name,Weapon,LevelId,GamerId")] Character character)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +66,8 @@ namespace Game.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GamerId"] = new SelectList(_context.Gamer, "Id", "Name", character.GamerId);
+            ViewData["LevelId"] = new SelectList(_context.Level, "Id", "Id", character.LevelId);
             return View(character);
         }
 
@@ -77,6 +84,8 @@ namespace Game.Controllers
             {
                 return NotFound();
             }
+            ViewData["GamerId"] = new SelectList(_context.Gamer, "Id", "Name", character.GamerId);
+            ViewData["LevelId"] = new SelectList(_context.Level, "Id", "Level_Number", character.LevelId);
             return View(character);
         }
 
@@ -85,7 +94,7 @@ namespace Game.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Weapon,Level_ID,Gamer_ID")] Character character)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Weapon,LevelId,GamerId")] Character character)
         {
             if (id != character.Id)
             {
@@ -112,6 +121,8 @@ namespace Game.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GamerId"] = new SelectList(_context.Gamer, "Id", "Name", character.GamerId);
+            ViewData["LevelId"] = new SelectList(_context.Level, "Id", "Level_Number", character.LevelId);
             return View(character);
         }
 
@@ -124,6 +135,8 @@ namespace Game.Controllers
             }
 
             var character = await _context.Character
+                .Include(c => c.Gamer)
+                .Include(c => c.Level)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (character == null)
             {
